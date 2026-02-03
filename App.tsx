@@ -4,6 +4,7 @@ function App() {
     <div>
       <h1>Hello</h1>
       <p>world</p>
+      <p>こんにちは</p>
     </div>
   )
 }
