@@ -1,40 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [count,setCount] = useState(0)
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  //増やす処理
-  const increment = ()=> {
-    setCount(count+1)
-  }
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
+      });
+  }, []);
 
-  //減らす処理
-  const decrement = () => {
-    setCount(count -1 )
-  }
+  if (loading) return <div>Loading...</div>;
 
-  //リセット処理
-  const reset = () => {
-    setCount(0)
-  }
   return (
-    <div className="container">
-    <h1>カウンター</h1>
-    <p>{count}</p>
-
     <div>
-      <button onClick={increment} style={{color:"green"}}>増やす</button>
+      <h1>User List</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.name} ({user.email})({user.phone})({user.website})
+          </li>
+        ))}
+      </ul>
     </div>
-
-    <div>
-      <button onClick={decrement} style={{color:"red"}}>減らす</button>
-    </div>
-
-    <div>
-      <button onClick={reset} style={{color:"blue"}}>リセット</button>
-    </div>
-  </div>
-  )
+  );
 }
 
-export default App
+export default App;
